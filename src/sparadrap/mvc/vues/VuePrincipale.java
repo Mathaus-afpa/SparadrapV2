@@ -1,4 +1,5 @@
 package sparadrap.mvc.vues;
+import sparadrap.composants.designers.Designer;
 import javax.swing.*;
 import java.awt.*;
 import static sparadrap.mvc.modeles.ModelePrincipal.*;
@@ -48,6 +49,7 @@ public class VuePrincipale {
 		fenetrePrincipale.setMinimumSize(frameSize);
 		fenetrePrincipale.setLocationRelativeTo(null);
 		creerPanneauParent();
+		creerArrierePlan();
 	}
 	/**
 	 * Creation du JPanel panneauParent.
@@ -57,6 +59,17 @@ public class VuePrincipale {
 		panneauParent = new JPanel();
 		fenetrePrincipale.setContentPane(panneauParent);
 		calquePrincipal.setLayer(panneauParent, JLayeredPane.DEFAULT_LAYER);
+		Designer.definirUneMiseEnPageSpring(calquePrincipal, panneauParent, APP_MARGES);
+	}
+	/**
+	 * Creation du JPanel definissant l'arriere-plan noir.
+	 */
+	private static void creerArrierePlan() {
+		JPanel arrierePlan = new JPanel();
+		arrierePlan.setBackground(Color.BLACK);
+		calquePrincipal.add(arrierePlan);
+		calquePrincipal.setLayer(arrierePlan, Integer.MIN_VALUE);
+		Designer.definirUneMiseEnPageSpring(calquePrincipal, arrierePlan, null);
 	}
     //</editor-fold>
 	//</editor-fold>

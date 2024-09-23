@@ -1,24 +1,60 @@
-package sparadrap.mvc.modeles;
-
+package sparadrap.composants.designers;
+import javax.swing.*;
 import java.awt.*;
-
 /**
- * [ModelePrincipal] - class
+ * [Designer] - class
  * @author Mathaus
  */
-public class ModelePrincipal {
+public class Designer {
 	//<editor-fold defaultstate="collapsed" desc="STATIC">
 	//START________________________________________________[static]___________________________________________________//
 	//<editor-fold defaultstate="collapsed" desc="PUBLIC">
     //<editor-fold defaultstate="collapsed" desc="Proprietes PUBLIC">
-	public final static String APP_TITRE = "SPARADRAP";
-	public final static String APP_VERSION = "1.0";
-	public final static int APP_MIN_WIDTH = 800;
-	public final static int APP_MIN_HEIGHT = 600;
-	public final static int[] APP_MARGES = new int[]{4};
-	public final static Color APP_COULEUR_PRINCIPALE = Color.WHITE;
     //</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="Fonctions PUBLIC">
+	/**
+	 * Creation d'une marge via les contraintes du SpringLayout.
+	 * @param parent avec un SpringLayout
+	 * @param enfant enfant à parametrer la marge
+	 * @param marges taille des marges
+	 */
+	public static void definirUneMiseEnPageSpring(JComponent parent, JComponent enfant, int[] marges) {
+		int northMargin = 0;
+		int eastMargin = 0;
+		int southMargin = 0;
+		int westMargin = 0;
+		//
+		LayoutManager parentLayout = parent.getLayout();
+		SpringLayout layout;
+		if (!(parentLayout instanceof SpringLayout)) {
+			layout = new SpringLayout();
+			parent.setLayout(layout);
+		} else {
+			layout = (SpringLayout) parent.getLayout();
+		}
+		if (marges != null && marges.length > 0) {
+			switch (marges.length) {
+				case 1:
+					northMargin = eastMargin = southMargin = westMargin = Math.abs(marges[0]);
+					break;
+				case 2:
+					northMargin = southMargin = Math.abs(marges[0]);
+					eastMargin = westMargin = Math.abs(marges[1]);
+					break;
+				case 3: break; //do nothing
+				default:
+					northMargin = Math.abs(marges[0]);
+					eastMargin = Math.abs(marges[1]);
+					southMargin = Math.abs(marges[2]);
+					westMargin = Math.abs(marges[3]);
+					break;
+			}
+		}
+		layout.putConstraint(SpringLayout.NORTH, enfant, northMargin, SpringLayout.NORTH, parent);
+		layout.putConstraint(SpringLayout.EAST, enfant, -eastMargin, SpringLayout.EAST, parent);
+		layout.putConstraint(SpringLayout.SOUTH, enfant, -southMargin, SpringLayout.SOUTH, parent);
+		layout.putConstraint(SpringLayout.WEST, enfant, westMargin, SpringLayout.WEST, parent);
+	}
     //</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="PRIVATE">
@@ -32,7 +68,7 @@ public class ModelePrincipal {
 	//<editor-fold defaultstate="collapsed" desc="INSTANCE">
     //START_______________________________________________[instance]__________________________________________________//
     // <editor-fold defaultstate="collapsed" desc="CONSTRUCTEURS">
-	private ModelePrincipal() {}
+	private Designer() {}
     // </editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="PUBLIC">
     //<editor-fold defaultstate="collapsed" desc="Attributs PUBLIC">
