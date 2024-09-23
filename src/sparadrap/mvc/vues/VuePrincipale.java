@@ -1,5 +1,7 @@
 package sparadrap.mvc.vues;
 import javax.swing.*;
+import java.awt.*;
+import static sparadrap.mvc.modeles.ModelePrincipal.*;
 /**
  * [VuePrincipale] - class
  * @author Mathaus
@@ -16,15 +18,46 @@ public class VuePrincipale {
 	 */
 	public static final void afficher() {
 		SwingUtilities.invokeLater(() -> {
-			//todo: appeler fonctions dessinant la JFrame.
+			afficherFenetrePrincipale();
 		});
 	}
     //</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="PRIVATE">
     //<editor-fold defaultstate="collapsed" desc="Proprietes PRIVATE">
+	private static final JFrame fenetrePrincipale = new JFrame(APP_TITRE + " - " + APP_VERSION);
+	private static final JLayeredPane calquePrincipal = fenetrePrincipale.getLayeredPane();
+	private static JPanel panneauParent = null;
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Fonctions PRIVATE">
+	/**
+	 * Affiche la fenetre principale.
+	 */
+	private static void afficherFenetrePrincipale() {
+		configurerPanneauParent();
+		fenetrePrincipale.pack();
+		fenetrePrincipale.setVisible(true);
+	}
+	/**
+	 * Configure la JFrame, puis creer les composants avec les donnees du ModelePrincipal.
+	 */
+	private static void configurerPanneauParent() {
+		Dimension frameSize = new Dimension(APP_MIN_WIDTH, APP_MIN_HEIGHT);
+		fenetrePrincipale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fenetrePrincipale.setSize(frameSize);
+		fenetrePrincipale.setMinimumSize(frameSize);
+		fenetrePrincipale.setLocationRelativeTo(null);
+		creerPanneauParent();
+	}
+	/**
+	 * Creation du JPanel panneauParent.
+	 * Ajoute panneauParent au contentPane de la JFrame et au layer par defaut.
+	 */
+	private static void creerPanneauParent() {
+		panneauParent = new JPanel();
+		fenetrePrincipale.setContentPane(panneauParent);
+		calquePrincipal.setLayer(panneauParent, JLayeredPane.DEFAULT_LAYER);
+	}
     //</editor-fold>
 	//</editor-fold>
     //END//////////////////////////////////////////////////[static]/////////////////////////////////////////////////////

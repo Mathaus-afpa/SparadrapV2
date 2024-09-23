@@ -8,6 +8,10 @@ public class ModelePrincipal {
 	//START________________________________________________[static]___________________________________________________//
 	//<editor-fold defaultstate="collapsed" desc="PUBLIC">
     //<editor-fold defaultstate="collapsed" desc="Proprietes PUBLIC">
+	public final static String APP_TITRE = "SPARADRAP";
+	public final static String APP_VERSION = "1.0";
+	public final static int APP_MIN_WIDTH = 800;
+	public final static int APP_MIN_HEIGHT = 600;
     //</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="Fonctions PUBLIC">
     //</editor-fold>
