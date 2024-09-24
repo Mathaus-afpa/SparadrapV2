@@ -1,25 +1,19 @@
-package sparadrap.mvc.vues.pages;
-import sparadrap.composants.enums.PAGES;
-import sparadrap.composants.sparadrap.SparadrapBoutonAccueil;
-import sparadrap.composants.sparadrap.SparadrapPage;
+package sparadrap.composants.sparadrap;
+import javax.swing.*;
+import java.awt.*;
+import static sparadrap.mvc.modeles.ModelePrincipal.BORDURE_TAILLE_4;
+import static sparadrap.mvc.modeles.ModelePrincipal.BTN_ACCUEIL_FONT;
 /**
- * [PageMedecin] - class
+ * [SparadrapBouton] - class
  * @author Mathaus
  */
-public class PageMedecins extends SparadrapPage {
+public class SparadrapBouton extends JButton {
 	//<editor-fold defaultstate="expanded" desc="STATIC">
 	//START________________________________________________[static]___________________________________________________//
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PUBLIC">
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PUBLIC">
-	/**
-	 * Recupere l'instance unique du Singleton.
-	 * @return (SparadrapPage)
-	 */
-	public static final SparadrapPage getInstance() {
-		return SingletonPageMedecins.INSTANCE;
-	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
@@ -33,20 +27,12 @@ public class PageMedecins extends SparadrapPage {
 	//<editor-fold defaultstate="expanded" desc="INSTANCE">
 	//START_______________________________________________[instance]__________________________________________________//
 	// <editor-fold defaultstate="expanded" desc="SINGLETON">
-	/**
-	 * Classe porteuse du Singleton.
-	 */
-	private static final class SingletonPageMedecins {
-		private static final PageMedecins INSTANCE = new PageMedecins();
-	}
 	// </editor-fold>
 	// <editor-fold defaultstate="expanded" desc="CONSTRUCTEURS">
-	private PageMedecins() {
-		if (SingletonPageMedecins.INSTANCE != null) {
-			throw new IllegalStateException("Instance already created");
-		}
-		//todo: designer Page.
-		this.add(new SparadrapBoutonAccueil(PAGES.ACCUEIL));
+	public SparadrapBouton() {
+		super();
+		this.setText(null); // On redessine le texte, cela evite donc le doublon.
+		designerBouton();
 	}
 	// </editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
@@ -57,8 +43,14 @@ public class PageMedecins extends SparadrapPage {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
+	private String texte;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
+	private void designerBouton() {
+		this.setFocusPainted(false);
+		this.setFont(BTN_ACCUEIL_FONT);
+		this.setBorder(BORDURE_TAILLE_4);
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="ENCAPSULATION">
@@ -71,6 +63,34 @@ public class PageMedecins extends SparadrapPage {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="OVERRIDE">
 	//START_______________________________________________[override]__________________________________________________//
+	@Override
+	public final void setText(String texte) {
+		if (texte != null) {
+			this.texte = texte.toUpperCase();
+			revalidate();
+			repaint();
+		}
+	}
+	@Override
+	protected final void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		// Active l'anti-aliasing pour un meilleur rendu du texte
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		// Définir la couleur du texte
+		g2d.setColor(getForeground());
+		// Récupérer les informations de la police et de la taille du texte
+		FontMetrics fm = g2d.getFontMetrics();
+		if (this.texte != null && !this.texte.isEmpty()) {
+			int textWidth = fm.stringWidth(texte);
+			int textHeight = fm.getAscent();  // Utilise l'ascent pour une meilleure position verticale
+			// Calculer la position pour centrer le texte verticalement et horizontalement
+			int x = (getWidth() - textWidth) / 2;
+			int y = (getHeight() + textHeight) / 2 - 4;  // Ajuste cette valeur pour descendre ou monter le texte
+			// Dessiner le texte à la position calculée
+			g2d.drawString(texte, x, y);
+		}
+	}
 	//END/////////////////////////////////////////////////[override]////////////////////////////////////////////////////
 	//</editor-fold>
 }

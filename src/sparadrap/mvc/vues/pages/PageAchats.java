@@ -1,4 +1,6 @@
 package sparadrap.mvc.vues.pages;
+import sparadrap.composants.enums.PAGES;
+import sparadrap.composants.sparadrap.SparadrapBoutonAccueil;
 import sparadrap.composants.sparadrap.SparadrapPage;
 /**
  * [PageAchat] - class
@@ -44,6 +46,7 @@ public class PageAchats extends SparadrapPage {
 			throw new IllegalStateException("Instance already created");
 		}
 		//todo: designer Page.
+		this.add(new SparadrapBoutonAccueil(PAGES.ACCUEIL));
 	}
 	// </editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">

@@ -1,10 +1,13 @@
 package sparadrap.mvc.vues.pages;
+import sparadrap.composants.enums.PAGES;
+import sparadrap.composants.sparadrap.SparadrapBoutonAccueil;
 import sparadrap.composants.sparadrap.SparadrapPage;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import static sparadrap.mvc.modeles.ModelePrincipal.*;
 /**
  * [PageAccueil] - class
  * @author Mathaus
@@ -51,7 +54,7 @@ public class PageAccueil extends SparadrapPage {
 		creerPanneauGauche();
 		creerPanneauDroit();
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this.setVisible(true);
+		this.setVisible(true); // redondant!
 	}
 	// </editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
@@ -89,11 +92,11 @@ public class PageAccueil extends SparadrapPage {
 			}
 		};
 		// Fixer taille et couleur du panel en rapport a l'image.
-		Dimension dimensionImage = new Dimension(487, 590);
+		Dimension dimensionImage = new Dimension(APP_BG_WIDTH, APP_BG_HEIGHT);
 		panneauGauche.setMinimumSize(dimensionImage);
 		panneauGauche.setPreferredSize(dimensionImage);
 		panneauGauche.setMaximumSize(dimensionImage);
-		this.setBackground(new Color(255, 174, 201)); // Couleur du fond de l'image.
+		this.setBackground(APP_BG_COULEUR); // Couleur du fond de l'image.
 		this.add(panneauGauche);
 	}
 	/***
@@ -102,6 +105,11 @@ public class PageAccueil extends SparadrapPage {
 	private void creerPanneauDroit() {
 		JPanel panneauDroit = new JPanel();
 		panneauDroit.setBackground(Color.BLACK); // Permet d'ajuster le pixel de la bordure.
+		panneauDroit.setLayout(new BoxLayout(panneauDroit, BoxLayout.Y_AXIS));
+		panneauDroit.add(new SparadrapBoutonAccueil(PAGES.ACHATS));
+		panneauDroit.add(new SparadrapBoutonAccueil(PAGES.HISTORIQUES));
+		panneauDroit.add(new SparadrapBoutonAccueil(PAGES.CLIENTS));
+		panneauDroit.add(new SparadrapBoutonAccueil(PAGES.MEDECINS));
 		this.add(panneauDroit);
 	}
 	//</editor-fold>

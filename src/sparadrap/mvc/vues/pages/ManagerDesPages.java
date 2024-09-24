@@ -15,11 +15,13 @@ public class ManagerDesPages {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PUBLIC">
 	/**
-	 * Recupere l'instance unique du Singleton.
-	 * @return (ManagerDesPages)
+	 * Affiche la page choisie en parametre.
+	 * @param page (PAGES)
 	 */
-	public static final ManagerDesPages getInstance() {
-		return ManagerDesPages.SingletonManagerDesPages.INSTANCE;
+	public static void afficherPage(PAGES page) {
+		if (pageCourante != null) pageCourante.setVisible(false);
+		pageCourante = pages.get(page);
+		pageCourante.setVisible(true);
 	}
 	//</editor-fold>
 	//</editor-fold>
@@ -34,6 +36,7 @@ public class ManagerDesPages {
 		pages.put(PAGES.HISTORIQUES, PageHistoriques.getInstance());
 		pages.put(PAGES.MEDECINS, PageMedecins.getInstance());
 	}
+	private static SparadrapPage pageCourante = null;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PRIVATE">
 	//</editor-fold>
@@ -43,34 +46,14 @@ public class ManagerDesPages {
 	//<editor-fold defaultstate="expanded" desc="INSTANCE">
 	//START_______________________________________________[instance]__________________________________________________//
 	// <editor-fold defaultstate="expanded" desc="SINGLETON">
-	/**
-	 * Classe porteuse du Singleton.
-	 */
-	private static final class SingletonManagerDesPages {
-		private static final ManagerDesPages INSTANCE = new ManagerDesPages();
-	}
 	// </editor-fold>
 	// <editor-fold defaultstate="expanded" desc="CONSTRUCTEURS">
-	private ManagerDesPages() {
-		if (ManagerDesPages.SingletonManagerDesPages.INSTANCE != null) {
-			throw new IllegalStateException("Instance already created");
-		}
-	}
+	private ManagerDesPages() {}
 	// </editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
 	//<editor-fold defaultstate="expanded" desc="Attributs PUBLIC">
-	private SparadrapPage pageCourante = pages.get(PAGES.ACCUEIL);
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PUBLIC">
-	/**
-	 * Affiche la page choisie en parametre.
-	 * @param page
-	 */
-	public final void afficherPage(PAGES page) {
-		this.pageCourante.setVisible(false);
-		this.pageCourante = this.pages.get(page);
-		this.pageCourante.setVisible(true);
-	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">

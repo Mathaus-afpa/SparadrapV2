@@ -1,5 +1,6 @@
 package sparadrap.mvc.vues;
 import sparadrap.composants.designers.Designer;
+import sparadrap.composants.enums.PAGES;
 import sparadrap.composants.sparadrap.SparadrapPage;
 import sparadrap.mvc.vues.pages.ManagerDesPages;
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class VuePrincipale {
 		fenetrePrincipale.setLocationRelativeTo(null);
 		creerPanneauParent();
 		creerArrierePlan();
-		managerDesPages = ManagerDesPages.getInstance();
+		ManagerDesPages.afficherPage(PAGES.ACCUEIL);
 	}
 	/**
 	 * Creation du JPanel panneauParent.
