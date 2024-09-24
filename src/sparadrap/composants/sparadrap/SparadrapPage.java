@@ -1,39 +1,22 @@
-package sparadrap.mvc.vues.pages;
-import sparadrap.composants.enums.PAGES;
-import sparadrap.composants.sparadrap.SparadrapPage;
-import java.util.HashMap;
-import java.util.Map;
+package sparadrap.composants.sparadrap;
+import sparadrap.mvc.modeles.ModelePrincipal;
+import sparadrap.mvc.vues.VuePrincipale;
+import java.awt.*;
 /**
- * [ManagerDesPages] - class
+ * [SparadrapPage] - class
  * @author Mathaus
  */
-public class ManagerDesPages {
+public class SparadrapPage extends SparadrapPanneau {
 	//<editor-fold defaultstate="expanded" desc="STATIC">
 	//START________________________________________________[static]___________________________________________________//
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PUBLIC">
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PUBLIC">
-	/**
-	 * Recupere l'instance unique du Singleton.
-	 * @return (ManagerDesPages)
-	 */
-	public static final ManagerDesPages getInstance() {
-		return ManagerDesPages.SingletonManagerDesPages.INSTANCE;
-	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PRIVATE">
-	private static final Map<PAGES, SparadrapPage> pages = new HashMap<>();
-	static {
-		// definition de la Map
-		pages.put(PAGES.ACCUEIL, PageAccueil.getInstance());
-		pages.put(PAGES.ACHATS, PageAchats.getInstance());
-		pages.put(PAGES.CLIENTS, PageClients.getInstance());
-		pages.put(PAGES.HISTORIQUES, PageHistoriques.getInstance());
-		pages.put(PAGES.MEDECINS, PageMedecins.getInstance());
-	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PRIVATE">
 	//</editor-fold>
@@ -43,46 +26,88 @@ public class ManagerDesPages {
 	//<editor-fold defaultstate="expanded" desc="INSTANCE">
 	//START_______________________________________________[instance]__________________________________________________//
 	// <editor-fold defaultstate="expanded" desc="SINGLETON">
-	/**
-	 * Classe porteuse du Singleton.
-	 */
-	private static final class SingletonManagerDesPages {
-		private static final ManagerDesPages INSTANCE = new ManagerDesPages();
-	}
 	// </editor-fold>
 	// <editor-fold defaultstate="expanded" desc="CONSTRUCTEURS">
-	private ManagerDesPages() {
-		if (ManagerDesPages.SingletonManagerDesPages.INSTANCE != null) {
-			throw new IllegalStateException("Instance already created");
-		}
+	public SparadrapPage() {
+		VuePrincipale.ajouterAuPanneauParent(this);
+		this.setLayout(new BorderLayout());
+		this.setVisible(false);
 	}
 	// </editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
 	//<editor-fold defaultstate="expanded" desc="Attributs PUBLIC">
-	private SparadrapPage pageCourante = pages.get(PAGES.ACCUEIL);
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PUBLIC">
-	/**
-	 * Affiche la page choisie en parametre.
-	 * @param page
-	 */
-	public final void afficherPage(PAGES page) {
-		this.pageCourante.setVisible(false);
-		this.pageCourante = this.pages.get(page);
-		this.pageCourante.setVisible(true);
-	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
+	private SparadrapPanneau panneauNord = null;
+	private SparadrapPanneau panneauCentre = null;
+	private SparadrapPanneau panneauSud = null;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="ENCAPSULATION">
 	//<editor-fold defaultstate="expanded" desc="Getters">
+	/**
+	 * Getter
+	 * @return (SparadrapPanneau)
+	 */
+	public final SparadrapPanneau getPanneauNord() {
+		return this.panneauNord;
+	}
+	/**
+	 * Getter
+	 * @return (SparadrapPanneau)
+	 */
+	public final SparadrapPanneau getPanneauCentre() {
+		return this.panneauCentre;
+	}
+	/**
+	 * Getter
+	 * @return (SparadrapPanneau)
+	 */
+	public final SparadrapPanneau getPanneauSud() {
+		return this.panneauSud;
+	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Setters">
+	/**
+	 * Setter
+	 * @param panneauNord
+	 * @param hauteur
+	 */
+	public final void setPanneauNord(SparadrapPanneau panneauNord, int hauteur) {
+		Dimension dimensionPanneauNord = new Dimension(ModelePrincipal.APP_MIN_WIDTH, hauteur);
+		panneauNord.setMinimumSize(dimensionPanneauNord);
+		panneauNord.setPreferredSize(dimensionPanneauNord);
+		panneauNord.setMaximumSize(dimensionPanneauNord);
+		this.panneauNord = panneauNord;
+		this.add(panneauNord, BorderLayout.NORTH);
+	}
+	/**
+	 * Setter
+	 * @param panneauCentre
+	 */
+	public final void setPanneauCentre(SparadrapPanneau panneauCentre) {
+		this.panneauCentre = panneauCentre;
+		this.add(panneauCentre, BorderLayout.CENTER);
+	}
+	/**
+	 * Setter
+	 * @param panneauSud
+	 * @param hauteur
+	 */
+	public final void setPanneauSud(SparadrapPanneau panneauSud, int hauteur) {
+		Dimension dimensionPanneauSud = new Dimension(ModelePrincipal.APP_MIN_WIDTH, hauteur);
+		panneauSud.setMinimumSize(dimensionPanneauSud);
+		panneauSud.setPreferredSize(dimensionPanneauSud);
+		panneauSud.setMaximumSize(dimensionPanneauSud);
+		this.panneauSud = panneauSud;
+		this.add(panneauSud, BorderLayout.SOUTH);
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//END/////////////////////////////////////////////////[instance]////////////////////////////////////////////////////

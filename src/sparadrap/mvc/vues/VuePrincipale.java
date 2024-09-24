@@ -1,5 +1,7 @@
 package sparadrap.mvc.vues;
 import sparadrap.composants.designers.Designer;
+import sparadrap.composants.sparadrap.SparadrapPage;
+import sparadrap.mvc.vues.pages.ManagerDesPages;
 import javax.swing.*;
 import java.awt.*;
 import static sparadrap.mvc.modeles.ModelePrincipal.*;
@@ -11,8 +13,8 @@ public class VuePrincipale {
 	//<editor-fold defaultstate="collapsed" desc="STATIC">
 	//START________________________________________________[static]___________________________________________________//
 	//<editor-fold defaultstate="collapsed" desc="PUBLIC">
-    //<editor-fold defaultstate="collapsed" desc="Proprietes PUBLIC">
-    //</editor-fold>
+	//<editor-fold defaultstate="collapsed" desc="Proprietes PUBLIC">
+	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="Fonctions PUBLIC">
 	/**
 	 * Creer et affiche la fenetre principale.
@@ -22,15 +24,24 @@ public class VuePrincipale {
 			afficherFenetrePrincipale();
 		});
 	}
-    //</editor-fold>
+	/**
+	 * Permet d'ajouter une page au panneau parent.
+	 * @param page
+	 */
+	public static void ajouterAuPanneauParent(SparadrapPage page) {
+		panneauParent.add(page);
+		Designer.definirUneMiseEnPageSpring(panneauParent, page, null);
+	}
+	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="PRIVATE">
-    //<editor-fold defaultstate="collapsed" desc="Proprietes PRIVATE">
+	//<editor-fold defaultstate="collapsed" desc="Proprietes PRIVATE">
 	private static final JFrame fenetrePrincipale = new JFrame(APP_TITRE + " - " + APP_VERSION);
 	private static final JLayeredPane calquePrincipal = fenetrePrincipale.getLayeredPane();
 	private static JPanel panneauParent = null;
-    //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Fonctions PRIVATE">
+	private static ManagerDesPages managerDesPages;
+	//</editor-fold>
+	//<editor-fold defaultstate="collapsed" desc="Fonctions PRIVATE">
 	/**
 	 * Affiche la fenetre principale.
 	 */
@@ -50,6 +61,7 @@ public class VuePrincipale {
 		fenetrePrincipale.setLocationRelativeTo(null);
 		creerPanneauParent();
 		creerArrierePlan();
+		managerDesPages = ManagerDesPages.getInstance();
 	}
 	/**
 	 * Creation du JPanel panneauParent.
@@ -71,34 +83,34 @@ public class VuePrincipale {
 		calquePrincipal.setLayer(arrierePlan, Integer.MIN_VALUE);
 		Designer.definirUneMiseEnPageSpring(calquePrincipal, arrierePlan, null);
 	}
-    //</editor-fold>
 	//</editor-fold>
-    //END//////////////////////////////////////////////////[static]/////////////////////////////////////////////////////
+	//</editor-fold>
+	//END//////////////////////////////////////////////////[static]/////////////////////////////////////////////////////
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="INSTANCE">
-    //START_______________________________________________[instance]__________________________________________________//
-    // <editor-fold defaultstate="collapsed" desc="CONSTRUCTEURS">
+	//START_______________________________________________[instance]__________________________________________________//
+	// <editor-fold defaultstate="collapsed" desc="CONSTRUCTEURS">
 	private VuePrincipale() {}
-    // </editor-fold>
+	// </editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="PUBLIC">
-    //<editor-fold defaultstate="collapsed" desc="Attributs PUBLIC">
-    //</editor-fold>
+	//<editor-fold defaultstate="collapsed" desc="Attributs PUBLIC">
+	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="Methodes PUBLIC">
-    //</editor-fold>
+	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="PRIVATE">
-    //<editor-fold defaultstate="collapsed" desc="Attributs PRIVATE">
-    //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Methodes PRIVATE">
-    //</editor-fold>
+	//<editor-fold defaultstate="collapsed" desc="Attributs PRIVATE">
+	//</editor-fold>
+	//<editor-fold defaultstate="collapsed" desc="Methodes PRIVATE">
+	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="ENCAPSULATION">
-    //<editor-fold defaultstate="collapsed" desc="Getters">
-    //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Setters">
-    //</editor-fold>
+	//<editor-fold defaultstate="collapsed" desc="Getters">
 	//</editor-fold>
-    //END/////////////////////////////////////////////////[instance]////////////////////////////////////////////////////
+	//<editor-fold defaultstate="collapsed" desc="Setters">
+	//</editor-fold>
+	//</editor-fold>
+	//END/////////////////////////////////////////////////[instance]////////////////////////////////////////////////////
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="OVERRIDE">
 	//START_______________________________________________[override]__________________________________________________//
