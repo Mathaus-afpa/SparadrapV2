@@ -1,6 +1,7 @@
 package sparadrap.composants;
 import sparadrap.composants.designers.Designer;
 import sparadrap.composants.enums.PAGES;
+import sparadrap.composants.sparadrap.SparadrapPanneauCliquable;
 import sparadrap.mvc.vues.pages.ManagerDesPages;
 import javax.swing.*;
 import java.awt.*;
@@ -36,13 +37,24 @@ public class Util {
 		boutonAccueil.addActionListener(onclick -> ManagerDesPages.afficherPage(PAGES.ACCUEIL));
 		return colonneBoutonAccueil;
 	}
+	/**
+	 * Creer le panneau du bouton supprimer.
+	 * @return (JPanel)
+	 */
+	public static SparadrapPanneauCliquable ajouterPanneauSupprimer() {
+		SparadrapPanneauCliquable colonneBoutonSupprimer = new SparadrapPanneauCliquable(creerBoutonSupprimer());
+		return colonneBoutonSupprimer;
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PRIVATE">
-	private static final ImageIcon ICON_ACCUEIL = creerIconePourBoutonAccueil();
+	private final static ImageIcon ICON_ACCUEIL = creerIconePourBoutonAccueil();
 	private final static int BTN_ACCUEIL_WIDTH = 200;
 	private final static int BTN_ACCUEIL_HEIGHT = 64;
+	private final static ImageIcon ICON_SUPPRIMER = creerIconePourBoutonSupprimer();
+	public final static int BTN_SUPPRIMER_WIDTH = 38;
+	public final static int BTN_SUPPRIMER_HEIGHT = 42;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PRIVATE">
 	/**
@@ -54,6 +66,33 @@ public class Util {
 		Image imageTailleReelle = iconeDepuisImage.getImage();
 		Image fixerDimensionsImage = imageTailleReelle.getScaledInstance(BTN_ACCUEIL_WIDTH, BTN_ACCUEIL_HEIGHT, Image.SCALE_SMOOTH);
 		return new ImageIcon(fixerDimensionsImage);
+	}
+	/**
+	 * Recreer l'image du bouton supprimer dans une taille coherente.
+	 * @return (ImageIcon)
+	 */
+	private static ImageIcon creerIconePourBoutonSupprimer() {
+		ImageIcon iconeDepuisImage = new ImageIcon(Objects.requireNonNull(Util.class.getResource("/sparadrap/ressources/BoutonSupprimer.png")));
+		Image imageTailleReelle = iconeDepuisImage.getImage();
+		Image fixerDimensionsImage = imageTailleReelle.getScaledInstance(BTN_SUPPRIMER_WIDTH, BTN_SUPPRIMER_HEIGHT, Image.SCALE_SMOOTH);
+		ImageIcon iconeRedimensionnee = new ImageIcon(fixerDimensionsImage);
+		return iconeRedimensionnee;
+	}
+	/**
+	 * Creer un bouton avec image pour supprimer.
+	 * @return (JButton)
+	 */
+	public static JButton creerBoutonSupprimer() {
+		// Créer le bouton avec l'image redimensionnée
+		JButton imageButton = new JButton(ICON_SUPPRIMER);
+		imageButton.setBackground(new Color(255, 85, 85));
+		Dimension imageDimension = new Dimension(BTN_SUPPRIMER_WIDTH + 6, BTN_SUPPRIMER_HEIGHT + 10);
+		imageButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		imageButton.setMinimumSize(imageDimension);
+		imageButton.setPreferredSize(imageDimension);
+		imageButton.setMaximumSize(imageDimension);
+		imageButton.setFocusPainted(false);
+		return imageButton;
 	}
 	//</editor-fold>
 	//</editor-fold>

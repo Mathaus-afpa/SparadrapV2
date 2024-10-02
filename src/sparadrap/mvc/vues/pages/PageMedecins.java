@@ -3,6 +3,7 @@ import sparadrap.composants.Util;
 import sparadrap.composants.designers.Designer;
 import sparadrap.composants.sparadrap.SparadrapPage;
 import sparadrap.composants.sparadrap.SparadrapPanneau;
+import sparadrap.composants.sparadrap.SparadrapPanneauCliquable;
 import sparadrap.composants.sparadrap.SparadrapVue;
 import sparadrap.mvc.vues.metiers.VueMedecin;
 import javax.swing.*;
@@ -61,6 +62,7 @@ public class PageMedecins extends SparadrapPage {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
+	private SparadrapPanneauCliquable boutonSupprimer;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
 	/**
@@ -89,6 +91,11 @@ public class PageMedecins extends SparadrapPage {
 		SparadrapPanneau sud = this.getPanneauSud();
 		sud.setLayout(new BoxLayout(sud, BoxLayout.X_AXIS));
 		sud.add(Util.ajouterPanneauAccueil());
+		boutonSupprimer = Util.ajouterPanneauSupprimer();
+		sud.add(boutonSupprimer);
+		boutonSupprimer.setOnClickListener(onclick -> {
+			//todo: do something.
+		});
 	}
 	//</editor-fold>
 	//</editor-fold>
