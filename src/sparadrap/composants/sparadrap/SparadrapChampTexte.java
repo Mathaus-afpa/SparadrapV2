@@ -82,14 +82,10 @@ public class SparadrapChampTexte extends JTextField {
 	 */
 	private void modifierEtat() {
 		String texte = this.getText();
-		if (texte.equals(derniereModification)) this.etat = MISESAJOUR.AUCUNE;
-		else {
-			if (this.pattern.matcher(texte).matches()) {
-				this.etat = MISESAJOUR.VALIDE;
-			} else {
-				this.etat = MISESAJOUR.INVALIDE;
-			}
-		}
+		if (texte.isBlank()) this.etat = MISESAJOUR.VIDE;
+		else if (texte.equals(derniereModification)) this.etat = MISESAJOUR.AUCUNE;
+		else if (this.pattern.matcher(texte).matches()) this.etat = MISESAJOUR.VALIDE;
+		else this.etat = MISESAJOUR.INVALIDE;
 		this.designerEtat();
 	}
 	/**
@@ -103,6 +99,7 @@ public class SparadrapChampTexte extends JTextField {
 			case VALIDE:
 				this.setBackground(COULEUR_TEXTE_VALIDE);
 				break;
+			case VIDE:
 			case INVALIDE:
 				this.setBackground(COULEUR_TEXTE_INVALIDE);
 				break;
@@ -114,8 +111,13 @@ public class SparadrapChampTexte extends JTextField {
 	 */
 	private void estEditable() {
 		this.derniereModification = this.getText();
-		this.etat = MISESAJOUR.AUCUNE;
-		this.setBackground(COULEUR_TEXTE_INCHANGE);
+		if (this.derniereModification.isBlank()) {
+			this.etat = MISESAJOUR.VIDE;
+			this.setBackground(COULEUR_TEXTE_INVALIDE);
+		} else {
+			this.etat = MISESAJOUR.AUCUNE;
+			this.setBackground(COULEUR_TEXTE_INCHANGE);
+		}
 		this.setEditable(true);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setOpaque(true);
@@ -143,7 +145,7 @@ public class SparadrapChampTexte extends JTextField {
 	}
 	/**
 	 * Getter
-	 * @return (MISESAJOUR)
+	 * @return (boolean)
 	 */
 	public final boolean getModifiable() {
 		return this.estModifiable;

@@ -6,5 +6,6 @@ package sparadrap.composants.enums;
 public enum MISESAJOUR {
     AUCUNE,
     VALIDE,
-    INVALIDE
+    INVALIDE,
+    VIDE
 }

@@ -1,29 +1,17 @@
-package sparadrap.mvc.vues.pages;
-import sparadrap.composants.designers.Designer;
-import sparadrap.composants.sparadrap.SparadrapPage;
-import sparadrap.composants.sparadrap.SparadrapPanneau;
+package sparadrap.mvc.vues.metiers;
 import sparadrap.composants.sparadrap.SparadrapVue;
-import sparadrap.mvc.vues.metiers.VueMedecin;
-import static sparadrap.mvc.modeles.ModelePrincipal.BANDEAU_BAS_TAILLE;
-import static sparadrap.mvc.modeles.ModelePrincipal.BANDEAU_HAUT_TAILLE;
+import sparadrap.mvc.modeles.metiers.Medecin;
 /**
- * [PageMedecin] - class
+ * [VueMedecin] - class
  * @author Mathaus
  */
-public class PageMedecins extends SparadrapPage {
+public class VueMedecin extends SparadrapVue {
 	//<editor-fold defaultstate="expanded" desc="STATIC">
 	//START________________________________________________[static]___________________________________________________//
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PUBLIC">
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PUBLIC">
-	/**
-	 * Recupere l'instance unique du Singleton.
-	 * @return (SparadrapPage)
-	 */
-	public static SparadrapPage getInstance() {
-		return SingletonPageMedecins.INSTANCE;
-	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
@@ -36,20 +24,11 @@ public class PageMedecins extends SparadrapPage {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="INSTANCE">
 	//START_______________________________________________[instance]__________________________________________________//
-	// <editor-fold defaultstate="expanded" desc="SINGLETON">
-	/**
-	 * Classe porteuse du Singleton.
-	 */
-	private static final class SingletonPageMedecins {
-		private static final PageMedecins INSTANCE = new PageMedecins();
-	}
+	//<editor-fold defaultstate="expanded" desc="SINGLETON">
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="CONSTRUCTEURS">
-	private PageMedecins() {
-		if (SingletonPageMedecins.INSTANCE != null) {
-			throw new IllegalStateException("Instance already created");
-		}
-		designerPageMedecins();
+	public VueMedecin(boolean estFormulaireVide) {
+		super(estFormulaireVide);
 	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
@@ -60,26 +39,20 @@ public class PageMedecins extends SparadrapPage {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
+	private Medecin medecin;
+	{
+		this.ajouterChampTexte("Nom", "^[A-Z][a-zA-Z-'À-ÿ]+(?: [A-Z][a-zA-Z-'À-ÿ]+)*$");
+		this.ajouterChampTexte("Prenom","^[A-Z][a-zA-Z-'À-ÿ]+(?: [A-Z][a-zA-Z-'À-ÿ]+)*$");
+		this.ajouterChampTexte("Adresse","^(\\d{1,5}\\s[A-Za-zÀ-ÿ0-9\\s\\-\\'\\.\\,]+[A-Za-zÀ-ÿ0-9])(\\s[0-9]{5}\\s[A-Za-zÀ-ÿ\\s\\-]+)?$");
+		this.ajouterChampTexte("CodePostal","^\\d{5}$");
+		this.ajouterChampTexte("Téléphone","^(?:0[1-9]|\\+33[1-9])(?:[\\s.-]?\\d{2}){4}$");
+		this.ajouterChampTexte("Email","^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+		this.ajouterChampTexte("Numéro d'Agrément","^\\d{9}$");
+		this.ajouterBouton("Spécialités");
+		this.creerVue();
+	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
-	/**
-	 * Ajoute les differents panneaux et leur design.
-	 */
-	private void designerPageMedecins() {
-		this.setPanneauNord(new SparadrapPanneau(), BANDEAU_HAUT_TAILLE);
-		this.setPanneauCentre(new SparadrapPanneau());
-		designerPanneauCentre();
-		this.setPanneauSud(new SparadrapPanneau(), BANDEAU_BAS_TAILLE);
-	}
-	/**
-	 * Ajoute les elements du panneau centre.
-	 */
-	private void designerPanneauCentre() {
-		SparadrapPanneau centre = this.getPanneauCentre();
-		SparadrapVue vue = new VueMedecin(false);
-		centre.add(vue);
-		Designer.definirUneMiseEnPageSpring(centre, vue, new int[] {0,120,0,40});
-	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="ENCAPSULATION">
