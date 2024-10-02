@@ -27,10 +27,12 @@ public class ModelePrincipal {
 	public final static Color COULEUR_TEXTE_INVALIDE = new Color(245, 170, 185);
 	public final static Color TRANSPARENT = new Color(0,0,0,0);
 	public final static Border BORDURE_TAILLE_2 = BorderFactory.createLineBorder(Color.BLACK, 2);
+	public final static Border BORDURE_TAILLE_3 = BorderFactory.createLineBorder(Color.BLACK, 3);
 	public final static Border BORDURE_TAILLE_4 = BorderFactory.createLineBorder(Color.BLACK, 4);
 	public final static Font BTN_ACCUEIL_FONT = new Font(APP_FONT, Font.BOLD, 40);
 	public final static Font CHAMP_TEXT_FONT = new Font(APP_FONT, Font.BOLD, 20);
 	public final static Font LABEL_TEXT_FONT = new Font(APP_FONT, Font.PLAIN, 20);
+	public final static Font BTN_TEXT_FONT = new Font(APP_FONT, Font.BOLD, 26);
 	public final static int BANDEAU_HAUT_TAILLE = 36;
 	public final static int BANDEAU_BAS_TAILLE = 64;
 	//</editor-fold>

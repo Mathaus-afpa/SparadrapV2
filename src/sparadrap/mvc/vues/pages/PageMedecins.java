@@ -1,12 +1,10 @@
 package sparadrap.mvc.vues.pages;
 import sparadrap.composants.Util;
 import sparadrap.composants.designers.Designer;
-import sparadrap.composants.sparadrap.SparadrapPage;
-import sparadrap.composants.sparadrap.SparadrapPanneau;
-import sparadrap.composants.sparadrap.SparadrapPanneauCliquable;
-import sparadrap.composants.sparadrap.SparadrapVue;
+import sparadrap.composants.sparadrap.*;
 import sparadrap.mvc.vues.metiers.VueMedecin;
 import javax.swing.*;
+import java.awt.*;
 import static sparadrap.mvc.modeles.ModelePrincipal.*;
 /**
  * [PageMedecin] - class
@@ -51,7 +49,7 @@ public class PageMedecins extends SparadrapPage {
 		if (SingletonPageMedecins.INSTANCE != null) {
 			throw new IllegalStateException("Instance already created");
 		}
-		designerPageMedecins();
+		this.designerPageMedecins();
 	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
@@ -63,6 +61,8 @@ public class PageMedecins extends SparadrapPage {
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
 	private SparadrapPanneauCliquable boutonSupprimer;
+	private JButton boutonModifier;
+	private JButton boutonAjouter;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
 	/**
@@ -71,9 +71,9 @@ public class PageMedecins extends SparadrapPage {
 	private void designerPageMedecins() {
 		this.setPanneauNord(new SparadrapPanneau(), BANDEAU_HAUT_TAILLE);
 		this.setPanneauCentre(new SparadrapPanneau());
-		designerPanneauCentre();
+		this.designerPanneauCentre();
 		this.setPanneauSud(new SparadrapPanneau(), BANDEAU_BAS_TAILLE);
-		designerPanneauSud();
+		this.designerPanneauSud();
 	}
 	/**
 	 * Ajoute les elements du panneau centre.
@@ -91,11 +91,56 @@ public class PageMedecins extends SparadrapPage {
 		SparadrapPanneau sud = this.getPanneauSud();
 		sud.setLayout(new BoxLayout(sud, BoxLayout.X_AXIS));
 		sud.add(Util.ajouterPanneauAccueil());
-		boutonSupprimer = Util.ajouterPanneauSupprimer();
-		sud.add(boutonSupprimer);
-		boutonSupprimer.setOnClickListener(onclick -> {
+		this.boutonSupprimer = Util.ajouterPanneauSupprimer();
+		sud.add(this.boutonSupprimer);
+		this.boutonSupprimer.setOnClickListener(onclick -> {
 			//todo: do something.
 		});
+		sud.add(this.creerPanneauModifierEtAjouter());
+	}
+	/**
+	 * Creer le panneau des boutons modifier et ajouter.
+	 * @return (SparadrapPanneau)
+	 */
+	private SparadrapPanneau creerPanneauModifierEtAjouter() {
+		SparadrapPanneau colonne = new SparadrapPanneau();
+		Dimension dimensionColonne = new Dimension(280, BANDEAU_BAS_TAILLE);
+		colonne.setMinimumSize(dimensionColonne);
+		colonne.setPreferredSize(dimensionColonne);
+		colonne.setMaximumSize(dimensionColonne);
+		this.boutonModifier = new SparadrapBouton();
+		this.boutonAjouter = new SparadrapBouton();
+		colonne.add(this.boutonModifier);
+		colonne.add(this.boutonAjouter);
+		this.designerBoutonModifier();
+		this.designerBoutonAjouter();
+		return colonne;
+	}
+	/**
+	 * Personnalise le bouton modifier.
+	 */
+	private void designerBoutonModifier() {
+		this.boutonModifier.setText("Modifier");
+		this.boutonModifier.setFont(BTN_TEXT_FONT);
+		this.boutonModifier.setBorder(BORDURE_TAILLE_3);
+		this.boutonModifier.setBackground(APP_COULEUR_PRINCIPALE);
+		Dimension dimensionColonne = new Dimension(200, 52);
+		this.boutonModifier.setMinimumSize(dimensionColonne);
+		this.boutonModifier.setPreferredSize(dimensionColonne);
+		this.boutonModifier.setMaximumSize(dimensionColonne);
+	}
+	/**
+	 * Personnalise le bouton ajouter.
+	 */
+	private void designerBoutonAjouter() {
+		this.boutonAjouter.setText("+");
+		this.boutonAjouter.setFont(BTN_TEXT_FONT);
+		this.boutonAjouter.setBorder(BORDURE_TAILLE_3);
+		this.boutonAjouter.setBackground(APP_COULEUR_PRINCIPALE);
+		Dimension dimensionColonne = new Dimension(52, 52);
+		this.boutonAjouter.setMinimumSize(dimensionColonne);
+		this.boutonAjouter.setPreferredSize(dimensionColonne);
+		this.boutonAjouter.setMaximumSize(dimensionColonne);
 	}
 	//</editor-fold>
 	//</editor-fold>
