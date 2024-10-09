@@ -20,18 +20,23 @@ public class VuePrincipale {
 	/**
 	 * Creer et affiche la fenetre principale.
 	 */
-	public static final void afficher() {
-		SwingUtilities.invokeLater(() -> {
-			afficherFenetrePrincipale();
-		});
+	public static void afficher() {
+		SwingUtilities.invokeLater(VuePrincipale::afficherFenetrePrincipale);
 	}
 	/**
 	 * Permet d'ajouter une page au panneau parent.
-	 * @param page
+	 * @param page (SparadrapPage)
 	 */
 	public static void ajouterAuPanneauParent(SparadrapPage page) {
 		panneauParent.add(page);
 		Designer.definirUneMiseEnPageSpring(panneauParent, page, null);
+	}
+	/**
+	 * Getter
+	 * @return (JFrame)
+	 */
+	public static JFrame getFenetrePrincipale() {
+		return fenetrePrincipale;
 	}
 	//</editor-fold>
 	//</editor-fold>
@@ -40,7 +45,6 @@ public class VuePrincipale {
 	private static final JFrame fenetrePrincipale = new JFrame(APP_TITRE + " - " + APP_VERSION);
 	private static final JLayeredPane calquePrincipal = fenetrePrincipale.getLayeredPane();
 	private static JPanel panneauParent = null;
-	private static ManagerDesPages managerDesPages;
 	//</editor-fold>
 	//<editor-fold defaultstate="collapsed" desc="Fonctions PRIVATE">
 	/**

@@ -47,6 +47,7 @@ public class PageMedecins extends SparadrapPage {
 	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="CONSTRUCTEURS">
+	@SuppressWarnings("ConstantConditions")
 	private PageMedecins() {
 		if (SingletonPageMedecins.INSTANCE != null) {
 			throw new IllegalStateException("Instance already created");
@@ -67,6 +68,7 @@ public class PageMedecins extends SparadrapPage {
 	private final JButton boutonModifier = new SparadrapBouton();
 	private final JButton boutonAjouter = new SparadrapBouton();
 	private final VueMedecin vue = new VueMedecin(false);
+	private final SparadrapComboBox<Medecin> comboBox = new SparadrapComboBox<>(DataSource.MEDECINS);
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
 	/**
@@ -74,18 +76,40 @@ public class PageMedecins extends SparadrapPage {
 	 */
 	private void designerPageMedecins() {
 		this.setPanneauNord(new SparadrapPanneau(), BANDEAU_HAUT_TAILLE);
+		this.designerPanneauNord();
 		this.setPanneauCentre(new SparadrapPanneau());
 		this.designerPanneauCentre();
 		this.setPanneauSud(new SparadrapPanneau(), BANDEAU_BAS_TAILLE);
 		this.designerPanneauSud();
 	}
 	/**
+	 * Ajoute les elements du panneau nord.
+	 */
+	private void designerPanneauNord() {
+		SparadrapPanneau nord = this.getPanneauNord();
+		nord.add(this.comboBox);
+		Designer.definirUneMiseEnPageSpring(nord, this.comboBox, new int[] { 4, 500, 0, 40});
+		this.configurerComboBox();
+	}
+	/**
+	 * Ajoute le comportement de la combobox.
+	 */
+	private void configurerComboBox() {
+		this.comboBox.addPropertyChangeListener(evt -> {
+			if ("selectedItem".equals(evt.getPropertyName())) {
+				Medecin medecin = this.comboBox.getSelectedItem();
+				this.vue.setMedecin(medecin);
+			}
+		});
+		this.comboBox.updateItems();
+	}
+	/**
 	 * Ajoute les elements du panneau centre.
 	 */
 	private void designerPanneauCentre() {
 		SparadrapPanneau centre = this.getPanneauCentre();
-		centre.add(vue);
-		Designer.definirUneMiseEnPageSpring(centre, vue, new int[] {0,120,0,40});
+		centre.add(this.vue);
+		Designer.definirUneMiseEnPageSpring(centre, this.vue, new int[] {0,120,0,40});
 	}
 	/**
 	 * Ajoute les elements du panneau sud.
@@ -152,16 +176,17 @@ public class PageMedecins extends SparadrapPage {
 	 */
 	private void configurerBoutonSupprimer() {
 		this.boutonSupprimer.setOnClickListener(onclick -> {
-			Medecin medecin = vue.getMedecin();
+			Medecin medecin = this.vue.getMedecin();
 			if (medecin == null) {
 				SparadrapVue.afficherAucuneSelection();
 			} else {
 				DataSource.MEDECINS.remove(medecin);
-				if (DataSource.MEDECINS.isEmpty()) vue.setMedecin(null);
+				if (DataSource.MEDECINS.isEmpty()) this.vue.setMedecin(null);
 				else {
-					vue.setMedecin(DataSource.MEDECINS.getFirst());
+					this.vue.setMedecin(DataSource.MEDECINS.getFirst());
 				}
 			}
+			this.comboBox.updateItems();
 		});
 	}
 	/**
@@ -169,11 +194,11 @@ public class PageMedecins extends SparadrapPage {
 	 */
 	private void configurerBoutonModifier() {
 		this.boutonModifier.addActionListener(onclick -> {
-			Medecin medecin = vue.getMedecin();
+			Medecin medecin = this.vue.getMedecin();
 			if (medecin == null) {
 				SparadrapVue.afficherAucuneSelection();
 			} else {
-				vue.setEdition();
+				this.vue.setEdition();
 			}
 		});
 	}
