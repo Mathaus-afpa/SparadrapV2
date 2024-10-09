@@ -17,7 +17,7 @@ public class Medecin extends Personne {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PRIVATE">
-	private int agreement;
+	private String agreement;
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PRIVATE">
 	//</editor-fold>
@@ -74,7 +74,7 @@ public class Medecin extends Personne {
 	 * Getter
 	 * @return (int)
 	 */
-	public final int getAgreement() {
+	public final String getAgreement() {
 		return this.agreement;
 	}
 	/**
@@ -90,7 +90,7 @@ public class Medecin extends Personne {
 	 * Setter
 	 * @param agreement (int)
 	 */
-	public final void setAgreement(int agreement) {
+	public final void setAgreement(String agreement) {
 		this.agreement = agreement;
 	}
 	//</editor-fold>

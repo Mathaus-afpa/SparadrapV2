@@ -2,6 +2,8 @@ package sparadrap.mvc.vues.pages;
 import sparadrap.composants.Util;
 import sparadrap.composants.designers.Designer;
 import sparadrap.composants.sparadrap.*;
+import sparadrap.data.DataSource;
+import sparadrap.mvc.modeles.metiers.Medecin;
 import sparadrap.mvc.vues.metiers.VueMedecin;
 import javax.swing.*;
 import java.awt.*;
@@ -50,6 +52,7 @@ public class PageMedecins extends SparadrapPage {
 			throw new IllegalStateException("Instance already created");
 		}
 		this.designerPageMedecins();
+		this.configurerBoutons();
 	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PUBLIC">
@@ -60,9 +63,10 @@ public class PageMedecins extends SparadrapPage {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
-	private SparadrapPanneauCliquable boutonSupprimer;
-	private JButton boutonModifier;
-	private JButton boutonAjouter;
+	private final SparadrapPanneauCliquable boutonSupprimer = Util.ajouterPanneauSupprimer();
+	private final JButton boutonModifier = new SparadrapBouton();
+	private final JButton boutonAjouter = new SparadrapBouton();
+	private final VueMedecin vue = new VueMedecin(false);
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
 	/**
@@ -80,7 +84,6 @@ public class PageMedecins extends SparadrapPage {
 	 */
 	private void designerPanneauCentre() {
 		SparadrapPanneau centre = this.getPanneauCentre();
-		SparadrapVue vue = new VueMedecin(false);
 		centre.add(vue);
 		Designer.definirUneMiseEnPageSpring(centre, vue, new int[] {0,120,0,40});
 	}
@@ -91,11 +94,7 @@ public class PageMedecins extends SparadrapPage {
 		SparadrapPanneau sud = this.getPanneauSud();
 		sud.setLayout(new BoxLayout(sud, BoxLayout.X_AXIS));
 		sud.add(Util.ajouterPanneauAccueil());
-		this.boutonSupprimer = Util.ajouterPanneauSupprimer();
 		sud.add(this.boutonSupprimer);
-		this.boutonSupprimer.setOnClickListener(onclick -> {
-			//todo: do something.
-		});
 		sud.add(this.creerPanneauModifierEtAjouter());
 	}
 	/**
@@ -108,8 +107,6 @@ public class PageMedecins extends SparadrapPage {
 		colonne.setMinimumSize(dimensionColonne);
 		colonne.setPreferredSize(dimensionColonne);
 		colonne.setMaximumSize(dimensionColonne);
-		this.boutonModifier = new SparadrapBouton();
-		this.boutonAjouter = new SparadrapBouton();
 		colonne.add(this.boutonModifier);
 		colonne.add(this.boutonAjouter);
 		this.designerBoutonModifier();
@@ -141,6 +138,52 @@ public class PageMedecins extends SparadrapPage {
 		this.boutonAjouter.setMinimumSize(dimensionColonne);
 		this.boutonAjouter.setPreferredSize(dimensionColonne);
 		this.boutonAjouter.setMaximumSize(dimensionColonne);
+	}
+	/**
+	 * Configure les actions onclick des boutons.
+	 */
+	private void configurerBoutons() {
+		this.configurerBoutonSupprimer();
+		this.configurerBoutonModifier();
+		this.configurerBoutonAjouter();
+	}
+	/**
+	 * Configure l'action onclick du bouton supprimer.
+	 */
+	private void configurerBoutonSupprimer() {
+		this.boutonSupprimer.setOnClickListener(onclick -> {
+			Medecin medecin = vue.getMedecin();
+			if (medecin == null) {
+				SparadrapVue.afficherAucuneSelection();
+			} else {
+				DataSource.MEDECINS.remove(medecin);
+				if (DataSource.MEDECINS.isEmpty()) vue.setMedecin(null);
+				else {
+					vue.setMedecin(DataSource.MEDECINS.getFirst());
+				}
+			}
+		});
+	}
+	/**
+	 * Configure l'action onclick du bouton modifier.
+	 */
+	private void configurerBoutonModifier() {
+		this.boutonModifier.addActionListener(onclick -> {
+			Medecin medecin = vue.getMedecin();
+			if (medecin == null) {
+				SparadrapVue.afficherAucuneSelection();
+			} else {
+				vue.setEdition();
+			}
+		});
+	}
+	/**
+	 * Configure l'action onclick du bouton ajouter.
+	 */
+	private void configurerBoutonAjouter() {
+		this.boutonAjouter.addActionListener(onclick -> {
+			//todo: do something;
+		});
 	}
 	//</editor-fold>
 	//</editor-fold>

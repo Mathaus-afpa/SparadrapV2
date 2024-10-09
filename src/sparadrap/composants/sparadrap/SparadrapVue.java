@@ -16,6 +16,12 @@ public class SparadrapVue extends SparadrapPanneau {
 	//<editor-fold defaultstate="expanded" desc="Proprietes PUBLIC">
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PUBLIC">
+	/**
+	 * Affiche un popup indicant l'absence de donnees dans la vue.
+	 */
+	public static void afficherAucuneSelection() {
+		JOptionPane.showMessageDialog(null, "Aucune sélection", "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
@@ -131,10 +137,26 @@ public class SparadrapVue extends SparadrapPanneau {
 		label.setFont(LABEL_TEXT_FONT);
 		return label;
 	}
+	/**
+	 * Rend les champs texte de la vue editable.
+	 */
+	public final void setEdition() {
+		for (Map.Entry<String, SparadrapChampTexte> entry : champsTexte.entrySet()) {
+			SparadrapChampTexte value = entry.getValue();
+			value.setModifiable(true);
+		}
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="ENCAPSULATION">
 	//<editor-fold defaultstate="expanded" desc="Getters">
+	/**
+	 * Getter
+	 * @return (Map<String, SparadrapChampTexte>)
+	 */
+	public final Map<String, SparadrapChampTexte> getChampsTexte() {
+		return champsTexte;
+	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Setters">
 	//</editor-fold>

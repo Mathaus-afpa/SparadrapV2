@@ -1,6 +1,10 @@
 package sparadrap.mvc.vues.metiers;
+import sparadrap.composants.sparadrap.SparadrapChampTexte;
 import sparadrap.composants.sparadrap.SparadrapVue;
 import sparadrap.mvc.modeles.metiers.Medecin;
+
+import java.util.Map;
+
 /**
  * [VueMedecin] - class
  * @author Mathaus
@@ -16,6 +20,13 @@ public class VueMedecin extends SparadrapVue {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
 	//<editor-fold defaultstate="expanded" desc="Proprietes PRIVATE">
+	private final static Medecin DEFAUT = new Medecin();
+	static {
+		DEFAUT.completerIdentite("- aucune selection -", "- aucune selection -",
+				"- aucune selection -", "- aucune selection -", "- aucune selection -");
+		DEFAUT.setPrenom("- aucune selection -");
+		DEFAUT.setAgreement("- aucune selection -");
+	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Fonctions PRIVATE">
 	//</editor-fold>
@@ -47,18 +58,51 @@ public class VueMedecin extends SparadrapVue {
 		this.ajouterChampTexte("CodePostal","^\\d{5}$");
 		this.ajouterChampTexte("Téléphone","^(?:0[1-9]|\\+33[1-9])(?:[\\s.-]?\\d{2}){4}$");
 		this.ajouterChampTexte("Email","^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
-		this.ajouterChampTexte("Numéro d'Agrément","^\\d{9}$");
+		this.ajouterChampTexte("Numéro d'Agrément","^\\d{5}$");
 		this.ajouterBouton("Spécialités");
 		this.creerVue();
 	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
+	/**
+	 * Affiche un medecin ou le medecin par defaut.
+	 * @param medecin (Medecin)
+	 */
+	private void afficherMedecin(Medecin medecin) {
+		Map<String, SparadrapChampTexte> champsTexte = getChampsTexte();
+		if (medecin != null) {
+			champsTexte.get("Nom").setText(medecin.getNom());
+			champsTexte.get("Prenom").setText(medecin.getPrenom());
+			champsTexte.get("Adresse").setText(medecin.getAdresse());
+			champsTexte.get("CodePostal").setText(medecin.getCodePostal());
+			champsTexte.get("Téléphone").setText(medecin.getTelephone());
+			champsTexte.get("Email").setText(medecin.getEmail());
+			champsTexte.get("Numéro d'Agrément").setText(medecin.getAgreement());
+		} else if (VueMedecin.DEFAUT != null) {
+			afficherMedecin(VueMedecin.DEFAUT);
+		}
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="ENCAPSULATION">
 	//<editor-fold defaultstate="expanded" desc="Getters">
+	/**
+	 * Getter
+	 * @return (Medecin)
+	 */
+	public final Medecin getMedecin() {
+		return this.medecin;
+	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Setters">
+	/**
+	 * Setter
+	 * @param medecin (Medecin)
+	 */
+	public final void setMedecin(Medecin medecin) {
+		this.medecin = medecin;
+		afficherMedecin(this.medecin);
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//END/////////////////////////////////////////////////[instance]////////////////////////////////////////////////////
