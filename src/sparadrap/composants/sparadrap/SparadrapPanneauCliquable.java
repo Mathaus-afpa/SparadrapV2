@@ -1,6 +1,8 @@
 package sparadrap.composants.sparadrap;
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import static sparadrap.mvc.modeles.ModelePrincipal.APP_COULEUR_PRINCIPALE;
+import static sparadrap.mvc.modeles.ModelePrincipal.COULEUR_BTN_SUPPRIMER;
 /**
  * [SparadrapPanneauCliquable] - class
  * @author Mathaus
@@ -38,16 +40,30 @@ public class SparadrapPanneauCliquable extends SparadrapPanneau {
     //<editor-fold defaultstate="expanded" desc="Methodes PUBLIC">
     /**
      * Defini l'evenement onclick du bouton.
-     * @param listener
+     * @param listener (ActionListener)
      */
-    public void setOnClickListener(ActionListener listener) {
+    public final void setOnClickListener(ActionListener listener) {
         this.bouton.addActionListener(listener);
+    }
+    /**
+     * Desactive le bouton et change sa couleur.
+     */
+    public final void desactiver() {
+        this.bouton.setBackground(APP_COULEUR_PRINCIPALE);
+        this.bouton.setEnabled(false);
+    }
+    /**
+     * Active le bouton et change sa couleur.
+     */
+    public void activer() {
+        this.bouton.setBackground(COULEUR_BTN_SUPPRIMER);
+        this.bouton.setEnabled(true);
     }
     //</editor-fold>
     //</editor-fold>
     //<editor-fold defaultstate="expanded" desc="PRIVATE">
     //<editor-fold defaultstate="expanded" desc="Attributs PRIVATE">
-    private JButton bouton;
+    private final JButton bouton;
     //</editor-fold>
     //<editor-fold defaultstate="expanded" desc="Methodes PRIVATE">
     //</editor-fold>

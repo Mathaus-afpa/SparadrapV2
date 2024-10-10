@@ -176,17 +176,19 @@ public class PageMedecins extends SparadrapPage {
 	 */
 	private void configurerBoutonSupprimer() {
 		this.boutonSupprimer.setOnClickListener(onclick -> {
-			Medecin medecin = this.vue.getMedecin();
-			if (medecin == null) {
-				SparadrapVue.afficherAucuneSelection();
-			} else {
-				DataSource.MEDECINS.remove(medecin);
-				if (DataSource.MEDECINS.isEmpty()) this.vue.setMedecin(null);
-				else {
-					this.vue.setMedecin(DataSource.MEDECINS.getFirst());
+			if (!this.comboBox.haveVerou()) {
+				Medecin medecin = this.vue.getMedecin();
+				if (medecin == null) {
+					SparadrapVue.afficherAucuneSelection();
+				} else {
+					DataSource.MEDECINS.remove(medecin);
+					if (DataSource.MEDECINS.isEmpty()) this.vue.setMedecin(null);
+					else {
+						this.vue.setMedecin(DataSource.MEDECINS.getFirst());
+					}
 				}
+				this.comboBox.updateItems();
 			}
-			this.comboBox.updateItems();
 		});
 	}
 	/**
@@ -194,21 +196,57 @@ public class PageMedecins extends SparadrapPage {
 	 */
 	private void configurerBoutonModifier() {
 		this.boutonModifier.addActionListener(onclick -> {
-			Medecin medecin = this.vue.getMedecin();
-			if (medecin == null) {
-				SparadrapVue.afficherAucuneSelection();
+			if (!this.comboBox.haveVerou()) {
+				this.activerVerouDeModification();
 			} else {
-				this.vue.setEdition();
+				this.desactiverVerouDeModification();
 			}
 		});
+	}
+	private void activerVerouDeModification() {
+		this.comboBox.setVerou(true);
+		Medecin medecin = this.vue.getMedecin();
+		if (medecin == null) {
+			SparadrapVue.afficherAucuneSelection();
+		} else {
+			this.vue.setEdition();
+		}
+		this.boutonModifier.setText("Valider");
+		this.boutonAjouter.setText("↩");
+		this.boutonAjouter.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 52));
+		this.boutonModifier.setBackground(COULEUR_TEXTE_VALIDE);
+		this.boutonAjouter.setBackground(COULEUR_TEXTE_INVALIDE);
+		this.boutonSupprimer.desactiver();
+	}
+	private void desactiverVerouDeModification() {
+		if (this.vue.saveEdition()) {
+			this.comboBox.setVerou(false);
+			this.boutonModifier.setText("Modifier");
+			this.boutonAjouter.setText("+");
+			this.boutonModifier.setBackground(APP_COULEUR_PRINCIPALE);
+			this.boutonSupprimer.activer();
+		} else {
+			SparadrapVue.afficherErreurFormulaire();
+		}
 	}
 	/**
 	 * Configure l'action onclick du bouton ajouter.
 	 */
 	private void configurerBoutonAjouter() {
 		this.boutonAjouter.addActionListener(onclick -> {
-			//todo: do something;
+			if (!this.comboBox.haveVerou()) { {
+				this.afficherPanneauAjout();
+			}} else if (VueMedecin.demanderReinitialiserFormulaire()){
+				this.vue.reinitialiserChampsTexte();
+			}
 		});
+	}
+	/**
+	 * Affiche le panneau d'ajout d'un nouveau medecin.
+	 */
+	private void afficherPanneauAjout() {
+		VueMedecin vueMedecin = new VueMedecin(true);
+		JOptionPane.showConfirmDialog(null, vueMedecin, "Entrée utilisateur", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 	}
 	//</editor-fold>
 	//</editor-fold>

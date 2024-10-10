@@ -43,6 +43,12 @@ public class SparadrapChampTexte extends JTextField {
 	//<editor-fold defaultstate="expanded" desc="Attributs PUBLIC">
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PUBLIC">
+	/**
+	 * Reinitialise le champ texte.
+	 */
+	public final void reinitialiserChampTexte() {
+		this.setText(this.derniereModification);
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">

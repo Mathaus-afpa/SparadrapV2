@@ -26,6 +26,8 @@ public class ModelePrincipal {
 	public final static Color COULEUR_TEXTE_VALIDE = new Color(115, 225, 115);
 	public final static Color COULEUR_TEXTE_INVALIDE = new Color(245, 170, 185);
 	public final static Color TRANSPARENT = new Color(0,0,0,0);
+	public final static Color COULEUR_ELEMENT_INACTIF = new Color(240, 240, 240);
+	public final static Color COULEUR_BTN_SUPPRIMER = new Color(255, 85, 85);
 	public final static Border BORDURE_TAILLE_2 = BorderFactory.createLineBorder(Color.BLACK, 2);
 	public final static Border BORDURE_TAILLE_3 = BorderFactory.createLineBorder(Color.BLACK, 3);
 	public final static Border BORDURE_TAILLE_4 = BorderFactory.createLineBorder(Color.BLACK, 4);

@@ -22,6 +22,19 @@ public class SparadrapVue extends SparadrapPanneau {
 	public static void afficherAucuneSelection() {
 		JOptionPane.showMessageDialog(null, "Aucune sélection", "Information", JOptionPane.INFORMATION_MESSAGE);
 	}
+	/**
+	 * Affiche un popup indicant l'absence de donnees dans la vue.
+	 */
+	public static void afficherErreurFormulaire() {
+		JOptionPane.showMessageDialog(null, "Le Formulaire contient des erreurs", "Information", JOptionPane.INFORMATION_MESSAGE);
+	}
+	/**
+	 * Affiche un popup demandant de reinitialiser le formulaire.
+	 */
+	public static boolean demanderReinitialiserFormulaire() {
+		int reponse = JOptionPane.showConfirmDialog(null, "Voulez-vous réinitialiser les valeurs ?", "Information", JOptionPane.YES_NO_OPTION);
+		return reponse == JOptionPane.YES_OPTION;
+	}
 	//</editor-fold>
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="PRIVATE">
@@ -47,20 +60,12 @@ public class SparadrapVue extends SparadrapPanneau {
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Methodes PUBLIC">
 	/**
-	 * Retourne faux si ne serait ce qu'un seul champ texte n'est pas complete et valide.
-	 * Sinon retourne vrai.
-	 * @return (boolean)
+	 * Reinitialise les champs texte.
 	 */
-	public final boolean peutSeFermer() {
-		boolean possedeUneErreur = champsTexte.values().stream()
-				.anyMatch(ct -> ct.getEtat() == MISESAJOUR.INVALIDE || ct.getEtat() == MISESAJOUR.VIDE);
-		if (possedeUneErreur) {
-			String titre = "Confirmation";
-			String message = "Voulez-vous continuer ?";
-			int choix = JOptionPane.showConfirmDialog(null, message, titre, JOptionPane.YES_NO_OPTION);
-			return choix == JOptionPane.YES_OPTION;
-		} else {
-			return true;
+	public final void reinitialiserChampsTexte() {
+		for (Map.Entry<String, SparadrapChampTexte> entry : this.champsTexte.entrySet()) {
+			SparadrapChampTexte value = entry.getValue();
+			value.reinitialiserChampTexte();
 		}
 	}
 	//</editor-fold>
@@ -79,11 +84,11 @@ public class SparadrapVue extends SparadrapPanneau {
 	private void configureGrille() {
 		this.setLayout(new GridBagLayout());
 		this.setBorder(BORDURE_TAILLE_2);
-		gbc.insets = new Insets(5, 15, 5, 5);
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
+		this.gbc.insets = new Insets(5, 15, 5, 5);
+		this.gbc.anchor = GridBagConstraints.CENTER;
+		this.gbc.fill = GridBagConstraints.HORIZONTAL;
+		this.gbc.weightx = 1;
+		this.gbc.weighty = 1;
 	}
 	/**
 	 * Ajoute un nouveau champ texte dans la liste des champs de la vue.
@@ -93,7 +98,7 @@ public class SparadrapVue extends SparadrapPanneau {
 	protected final void ajouterChampTexte(String label, String regex) {
 		SparadrapChampTexte ct = new SparadrapChampTexte(regex);
 		if (!this.estFormulaireVide) ct.setText("- aucune selection -");
-		champsTexte.put(label, ct);
+		this.champsTexte.put(label, ct);
 	}
 	/**
 	 * Ajoute un nouveau bouton dans la liste des boutons de la vue.
@@ -101,29 +106,29 @@ public class SparadrapVue extends SparadrapPanneau {
 	 */
 	protected final void ajouterBouton(String label) {
 		JButton bouton = new JButton("voir");
-		boutons.put(label, bouton);
+		this.boutons.put(label, bouton);
 	}
 	/**
 	 * Recupere les champts textes et les boutons pour les afficher dans la grille.
 	 */
 	protected final void creerVue() {
 		int ligne = 0;
-		for (Map.Entry<String, SparadrapChampTexte> entry : champsTexte.entrySet()) {
-			gbc.gridx = 0;  // Colonne 1
-			gbc.gridy = ligne;  // Ligne correspondante
-			this.add(this.creerLabelTexte(entry.getKey()), gbc);
-			gbc.gridx = 1;  // Colonne 2
+		for (Map.Entry<String, SparadrapChampTexte> entry : this.champsTexte.entrySet()) {
+			this.gbc.gridx = 0;  // Colonne 1
+			this.gbc.gridy = ligne;  // Ligne correspondante
+			this.add(this.creerLabelTexte(entry.getKey()), this.gbc);
+			this.gbc.gridx = 1;  // Colonne 2
 			SparadrapChampTexte ct = entry.getValue();
 			if (this.estFormulaireVide) ct.setModifiable(true);
-			this.add(ct, gbc);
+			this.add(ct, this.gbc);
 			ligne++;
 		}
 		for (Map.Entry<String, JButton> entry : boutons.entrySet()) {
-			gbc.gridx = 0;  // Colonne 1
-			gbc.gridy = ligne;  // Ligne correspondante
-			this.add(this.creerLabelTexte(entry.getKey()), gbc);
-			gbc.gridx = 1;  // Colonne 2
-			this.add(entry.getValue(), gbc);
+			this.gbc.gridx = 0;  // Colonne 1
+			this.gbc.gridy = ligne;  // Ligne correspondante
+			this.add(this.creerLabelTexte(entry.getKey()), this.gbc);
+			this.gbc.gridx = 1;  // Colonne 2
+			this.add(entry.getValue(), this.gbc);
 			ligne++;
 		}
 	}
@@ -141,10 +146,28 @@ public class SparadrapVue extends SparadrapPanneau {
 	 * Rend les champs texte de la vue editable.
 	 */
 	public final void setEdition() {
-		for (Map.Entry<String, SparadrapChampTexte> entry : champsTexte.entrySet()) {
+		for (Map.Entry<String, SparadrapChampTexte> entry : this.champsTexte.entrySet()) {
 			SparadrapChampTexte value = entry.getValue();
 			value.setModifiable(true);
 		}
+	}
+	/**
+	 * Sauvegarde ou ne fait rien en cas d'erreur de saisie.
+	 * @return (boolean)
+	 */
+	@SuppressWarnings("ConstantConditions")
+	public final boolean saveEdition() {
+		for (Map.Entry<String, SparadrapChampTexte> entry : this.champsTexte.entrySet()) {
+			SparadrapChampTexte value = entry.getValue();
+			if (value.getEtat() == MISESAJOUR.INVALIDE || value.getEtat() == MISESAJOUR.VIDE) {
+				return false;
+			}
+		}
+		for (Map.Entry<String, SparadrapChampTexte> entry : this.champsTexte.entrySet()) {
+			SparadrapChampTexte value = entry.getValue();
+			value.setModifiable(false);
+		}
+		return true;
 	}
 	//</editor-fold>
 	//</editor-fold>
@@ -155,7 +178,7 @@ public class SparadrapVue extends SparadrapPanneau {
 	 * @return (Map<String, SparadrapChampTexte>)
 	 */
 	public final Map<String, SparadrapChampTexte> getChampsTexte() {
-		return champsTexte;
+		return this.champsTexte;
 	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Setters">

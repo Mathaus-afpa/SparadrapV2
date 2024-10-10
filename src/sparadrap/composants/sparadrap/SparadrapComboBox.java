@@ -8,6 +8,8 @@ import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
+import static sparadrap.mvc.modeles.ModelePrincipal.APP_COULEUR_PRINCIPALE;
+import static sparadrap.mvc.modeles.ModelePrincipal.COULEUR_ELEMENT_INACTIF;
 /**
  * [SparadrapComboBox] - class
  * @author Mathaus
@@ -171,21 +173,32 @@ public class SparadrapComboBox<E> extends JPanel {
 	//<editor-fold defaultstate="expanded" desc="ENCAPSULATION">
 	//<editor-fold defaultstate="expanded" desc="Getters">
 	/**
-	 * Setter
+	 * Getter
 	 * @return (E)
 	 */
 	public final E getSelectedItem() {
 		return this.selectedItem;
 	}
+	/**
+	 * Getter
+	 * @return (boolean)
+	 */
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
+	public final boolean haveVerou() {
+		return this.verou;
+	}
 	//</editor-fold>
 	//<editor-fold defaultstate="expanded" desc="Setters">
 	/**
 	 * Setter
+	 * @param verou (boolean)
 	 */
 	public final void setVerou(boolean verou) {
 		this.verou = verou;
 		this.comboBox.setEnabled(!verou);
 		this.bouton.setEnabled(!verou);
+		if (this.verou) this.bouton.setBackground(COULEUR_ELEMENT_INACTIF);
+		else this.bouton.setBackground(APP_COULEUR_PRINCIPALE);
 	}
 	//</editor-fold>
 	//</editor-fold>
